@@ -15,12 +15,12 @@
 t_link	*ft_lstnew(char *argument)
 {
 	t_link		*new_node;
-	int		content;
+	int			content;
 
 	content = ft_atoi(argument);
 	new_node = malloc(sizeof(t_link));
 	if (!new_node)
-		return (NULL); //FREE EM ALL.
+		return (NULL);
 	new_node->content = content;
 	new_node->next = NULL;
 	new_node->previous = NULL;

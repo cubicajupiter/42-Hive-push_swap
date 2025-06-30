@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-void	ft_push(t_link **dest_cont, t_link **src_cont)
+static void	push(t_link **dest_cont, t_link **src_cont)
 {
 	t_link		*tail;
 	t_link		*old_top;
@@ -33,12 +33,12 @@ void	ft_push(t_link **dest_cont, t_link **src_cont)
 
 void	pa(t_link **a, t_link **b)
 {
-	ft_push(a, b);
+	push(a, b);
 	write(1, "pa\n", 3);
 }
 
 void	pb(t_link **b, t_link **a)
 {
-	ft_push(b, a);
+	push(b, a);
 	write(1, "pb\n", 3);
 }

@@ -75,22 +75,49 @@ int	test_primaries()
 	//ft_sort();
 
 
-	char	*short_args[4] = {"name", "8", "2", "5"};
-	t_link	*a_short = NULL;
+	char	*bubble_args[4] = {"name", "8", "2", "5"};
+	char	*bubble_args2[4] = {"name", "42", "16", "1"};
+	char	*bubble_args3[4] = {"name", "50", "99", "5"};
+	t_link	*a_bubble = NULL;
+	t_link	*a_bubble2 = NULL;
+	t_link	*a_bubble3 = NULL;
 	int		res;
 
-	initialize_test_parameters(&a_short, short_args, 4);
+	initialize_test_parameters(&a_bubble, bubble_args, 4);
+	initialize_test_parameters(&a_bubble2, bubble_args2, 4);
+	initialize_test_parameters(&a_bubble3, bubble_args3, 4);
+
 	printf("Testing [ ft_bubble ]\n");
 	printf("-CHECKING WHETHER BUBBLE SORT WORKS-\n");
-	printf("	Stack before bubble sort:\n");
-	res = ft_is_sorted(&a_short);
+
+	printf("	Stack 1 before bubble sort:\n"); // SET 1
+	res = ft_is_sorted(&a_bubble);
 	printf("		0 if unsorted: %d\n", res);
-	ft_bubble(&a_short);
-	printf("	Stack after bubble sort:\n");
-	res = ft_is_sorted(&a_short);
+	ft_bubble(&a_bubble);
+	printf("	Stack 1 after bubble sort:\n");
+	res = ft_is_sorted(&a_bubble);
 	printf("		1 if sorted: %d\n\n", res);
-	ft_free_items(&a_short);
-	
+
+	printf("	Stack 2 before bubble sort:\n"); // SET 2
+	res = ft_is_sorted(&a_bubble2);
+	printf("		0 if unsorted: %d\n", res);
+	ft_bubble(&a_bubble2);
+	printf("	Stack 2 after bubble sort:\n");
+	res = ft_is_sorted(&a_bubble2);
+	printf("		1 if sorted: %d\n\n", res);
+
+	printf("	Stack 3 before bubble sort:\n"); // SET 3
+	res = ft_is_sorted(&a_bubble3);
+	printf("		0 if unsorted: %d\n", res);
+	ft_bubble(&a_bubble3);
+	printf("	Stack 3 after bubble sort:\n");
+	res = ft_is_sorted(&a_bubble3);
+	printf("		1 if sorted: %d\n\n\n", res);
+
+	ft_free_items(&a_bubble);	
+	ft_free_items(&a_bubble2);	
+	ft_free_items(&a_bubble3);	
+
 
 	char		*sorted_args[10] = {"name", "1", "2", "4", "7", "9", "15", "28", "42", "57"};
 	char		*unsorted_args[10] = {"name", "30", "1", "4", "42", "17", "7", "9", "2", "57"};

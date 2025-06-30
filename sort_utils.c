@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rotate.c                                           :+:      :+:    :+:   */
+/*   sort_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvalkama <jvalkama@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/17 15:19:56 by jvalkama          #+#    #+#             */
-/*   Updated: 2025/06/17 15:28:18 by jvalkama         ###   ########.fr       */
+/*   Created: 2025/06/30 15:32:40 by jvalkama          #+#    #+#             */
+/*   Updated: 2025/06/30 17:11:07 by jvalkama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-
-static void	rotate(t_link **cont)
+void	ft_initial_push(t_link **b, t_link **a, int *push_count);
 {
-	*cont = (*cont)->next;
+	if (n > 4)
+	{
+		pb(b, a);
+		*push_count++;
+	}
+	pb(b, a);
+	*push_count++;
 }
 
-void	ra(t_link **a)
+int		ft_closest_smaller(t_link **a, t_link **b)
 {
-	rotate(a);
-	write(1, "ra\n", 3);
-}
 
-void	rb(t_link **b)
-{
-	rotate(b);
-	write(1, "rb\n", 3);
-}
-
-void	rr(t_link **a, t_link **b)
-{
-	rotate(a);	
-	rotate(b);
-	write(1, "rr\n", 3);
 }

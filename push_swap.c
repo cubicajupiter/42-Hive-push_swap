@@ -14,7 +14,7 @@
 
 int	main_unit(int argc, char **argv) //CHANGE NAME BACK TO MAIN() AFTER UNIT TESTING
 {
-	int				is_error;
+	int			is_error;
 	t_link		*a;
 	t_link		*b;
 
@@ -32,10 +32,10 @@ int	main_unit(int argc, char **argv) //CHANGE NAME BACK TO MAIN() AFTER UNIT TES
 	return (0);
 }
 
-int		ft_link_items(t_link **a, int argc, char **argv)
+int		ft_link_items(t_link **a, int argc, char **argv) //WORKS!!!!!!!!!!!!!!!!!!
 {
 	int			i;
-	t_link	*new_node;
+	t_link		*new_node;
 
 	i = 1;
 	while (i < argc)
@@ -55,46 +55,53 @@ int		ft_link_items(t_link **a, int argc, char **argv)
 
 void	ft_sort(int argc, t_link **a, t_link **b)
 {
-	if (argc <= 4)
+	int		item_count;
+
+	item_count = argc - 1;
+	if (item_count <= 3)
 		ft_bubble(a);
 	else
 	{
-		while (1)
-		{
-			if (ft_is_sorted(a) && b)
-				break ;
-		//TURK SORT command conditions and calls here
-		//RUN A COMMAND FUNCTION CALL
-			write(1, "\n", 1);
-		}
+
+		ft_descend_in_b(b, a, item_count);
+		ft_bubble(a);
+		ft_ascend_in_a(a, b);
 	}
 }
 
-void	ft_bubble(t_link **a)
+void	ft_bubble(t_link **a) //WORKS!!!!!!!!!!!!!!!!!!!!!!!
 {
-	t_link			*tmp;
-	int				top;
-	int				below;
+	t_link		*tmp;
+	int			top;
+	int			below;
+	int			i;
 
+	i = 0;
 	tmp = *a;
-	while (!ft_is_sorted(&tmp)) //INFINITE LOOP OF SA RA, reason below:
+	while (!ft_is_sorted(&tmp))
 	{
-		ra(&tmp); //currently there is one step missing. A bubble sort first compares first two values, swaps them if they're unsorted (SA), then increments by one (RA). After the last pair, it should start again from the first two. That's not done by this yet - it requires a third operation.
 		top = tmp->content;
 		below = tmp->next->content;
 		if (top > below)
 			sa(&tmp);
-		//ra(&tmp);
+		if (!ft_is_sorted(&tmp))
+		{
+			if (i % 2 == 1)
+				rra(&tmp);
+			else
+				ra(&tmp);
+		}
+		i++;
 	}
 	*a = tmp;
 }
 
-int		ft_is_sorted(t_link **a)
+int		ft_is_sorted(t_link **a) //WORKS!!!!!!!!!!!!!!!!!
 {
-	int				prev;
-	int				current;
-	t_link			*tmp;
-	void			*first_address;
+	int			prev;
+	int			current;
+	t_link		*tmp;
+	void		*first_address;
 
 	prev = 0;
 	tmp = *a;

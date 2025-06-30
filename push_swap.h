@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
+# include <limits.h>
 
 typedef struct s_stack_item
 {
@@ -38,19 +39,26 @@ t_link			*ft_lstnew(char *argument);
 void			ft_lstadd_back(t_link **cont_head, t_link *new_node);
 void			ft_tail_to_head(t_link **cont_head);
 void			ft_free_items(t_link **cont_head);
-int				ft_atoi(char *nptr);
-void			ft_push(t_link **dest_cont, t_link **src_cont);
+static int		ft_atoi(char *nptr);
+void			ft_descend_in_b(t_link **b, t_link **a, int n);
+void			ft_ascend_in_a(t_link **a, t_link **b);
+void			choose_item(t_link **a, t_link **b, int a_len, int *choices)
+static int		count_cost(t_link **a, t_link **b);
+static int		closest_smaller();
+static int		closest_larger();
+void			ft_initial_push(t_link **b, t_link **a, int *push_count);
+static void		push(t_link **dest_cont, t_link **src_cont);
 void			pa(t_link **a, t_link **b);
 void			pb(t_link **b, t_link **a);
-void			ft_swap(t_link **cont);
+static void		swap(t_link **cont);
 void			sa(t_link **a);
 void			sb(t_link **b);
 void			ss(t_link **a, t_link **b);
-void			ft_rotate(t_link **cont);
+static void		rotate(t_link **cont);
 void			ra(t_link **a);
 void			rb(t_link **b);
 void			rr(t_link **a, t_link **b);
-void			ft_rev_rotate(t_link **cont);
+static void		rev_rotate(t_link **cont);
 void			rra(t_link **a);
 void			rrb(t_link **b);
 void			rrr(t_link **a, t_link **b);

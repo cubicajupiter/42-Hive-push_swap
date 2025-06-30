@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-void	ft_swap(t_link	**cont)
+static void	swap(t_link	**cont)
 {
 	t_link		*first;
 	t_link		*second;
@@ -34,19 +34,19 @@ void	ft_swap(t_link	**cont)
 
 void	sa(t_link **a)
 {
-	ft_swap(a);
+	swap(a);
 	write(1, "sa\n", 3);
 }
 
 void	sb(t_link **b)
 {
-	ft_swap(b);
+	swap(b);
 	write(1, "sb\n", 3);
 }
 
 void	ss(t_link **a, t_link **b)
 {
-	ft_swap(a);
-	ft_swap(b);
+	swap(a);
+	swap(b);
 	write(1, "ss\n", 3);
 }
