@@ -62,7 +62,6 @@ void	ft_sort(int argc, t_link **a, t_link **b)
 		ft_bubble(a);
 	else
 	{
-
 		ft_descend_in_b(b, a, item_count);
 		ft_bubble(a);
 		ft_ascend_in_a(a, b);
