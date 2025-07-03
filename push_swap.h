@@ -29,6 +29,14 @@ typedef struct s_stack_item
 # define FALSE 0
 # define SORTED 1
 # define NOT_SORTED 0
+# define COST 0
+# define TARGET_I, TARGT_ROTAS 1
+# define TARGET_TAIL_DIST, TARGT_REVROTAS 2
+# define ITEM_I, ITEM_ROTAS 3
+# define ITEM_TAIL_DIST, ITEM_REVROTAS 4
+# define BOTH_ROTAS 5
+# define BOTH_REVROTAS 6
+# define NULLTER 7;
 
 int				main_unit(int argc, char *argv[]); //CHANGE NAME AFTER UNIT TESTING
 int				ft_link_items(t_link **a, int argc, char **argv);

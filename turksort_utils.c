@@ -21,12 +21,42 @@ void	ft_initial_push(t_link **b, t_link **a, int *push_count);
 	*push_count++;
 }
 
-int		ft_closest_smaller(int choice_i, t_link **a, t_link **b)
+static int		ft_closest_smaller(int choice_i, t_link **a, t_link **b)
 {
 
 }
 
-int		closest_larger()
-{
+//int		closest_larger() CLOSEST_LARGER IMPLEMENT IN FT_ASCEND_A ?
+//{
+//
+//}
 
+static void  fetch_instructions(int choice)
+{
+  
+}
+
+static int	ft_target_dist(int target_i, t_link **b) //RETS DISTANCE TO BOTTOM ONLY
+{
+	int		  dist;
+	t_link	*tmp_b;
+	
+	tmp_b = (*b)->next;
+  dist = 1;
+	while (tmp_b && tmp_b != *b) //THERES NOTHING LINKING B NODES YET
+  {
+    tmp_b = tmp_b->next;
+		dist++;
+  }
+  dist = dist - target_i;
+  return (dist);
+}
+
+void  fill_parameters(int *array, t_link *a, t_link *b, int a_len)
+{
+    array[TARGET] = ft_closest_smaller(array[ITEM], a, b);
+    array[TARGET_TAIL_DIST] = ft_target_dist(array, b);
+    array[ITEM_TAIL_DIST] = a_len - array[ITEM];
+    array[NULLTER] = NULL;
+    fetch_instructions(array);
 }

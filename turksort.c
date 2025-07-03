@@ -14,20 +14,17 @@
 
 
 
-void	ft_descend_in_b(t_link **b, t_link **a, int n)
+void	ft_descend_in_b(t_link **b, t_link **a, int a_len)
 {
 	int		push_count;
-	int		node_indexes[3];
+	int		choice[7];
 
 	push_count = 0;
 	ft_initial_push(b, a, &push_count);
-	while (n - push_count > 3)
+	while (a_len - push_count > 3)
 	{
-		choose_item(a, b, n - push_count, node_indexes);
-		if (choice_is_below_median(&node_indexes))
-			revrotate_to_top();
-		else
-			rotate_to_top();
+		choose_item(a, b, a_len - push_count, choice);
+    //instructions and indexes are in choice[]
 		pb(b, a);
 		push_count++;
 	}
@@ -50,52 +47,41 @@ void	ft_ascend_in_a(t_link **a, t_link **b)
 
 static void	choose_item(t_link **a, t_link **b, int a_len, int *choice)
 {
-	int		total_cost;
 	int		target_i;
-	int		choice_i;
+	int		item_i;
+  int   alt[8];
 
-	choice_i = 0;
-	choice[0] = INT_MAX;
-	while (choice_i < a_len)
+	item_i = 0;
+	while (item_i < a_len)
 	{
-		target_i = ft_closest_smaller(choice_i, a, b);
-		total_cost = count_cost(choice_i, a_len, b, target_i);
-		if (total_cost < choice[0])
+    alt[ITEM] = item_i;
+    fill_parameters(alt, a, b, a_len);
+		alt[COST] = count_cost(alt);
+		if (alt[COST] < choice[COST])
 		{
-			choice[0] = total_cost;
-			choice[1] = choice_i;
-			choice[2] = target_i; //THESE THREE ARE THE ONLY INTELS REQUIRED FOR PERFORMING OPS IN CALLER
-			// FURTHER INTEL IS ONLY REQUIRED IN COST COUNTING.
+      choice[COST] = alt[COST];
+      //all alt values become choice values
 		}
-		choice_i++;
+		item_i++;
 	}
 }
 
-static int	count_cost(int choice_i, int a_len, t_link **b, int target_i) // RETURNS THE COST OF LOWEST COST PUSH
+static int	count_cost(int *alt)
 {
-	int		target_distance;
-	int		choice_distance;
-	int		rota_count; //rota count approximates to a concept of total count of rotations, but curently has no logic for revrot/rot aspect which will happen by the negatives&positives of target and choice distances, somehow, once implemented
+	int		rota_count;
+  
+	if (target_i < target_rev_dist && item_i < item_rev_dist)
+    //rotate both until smaller i is exhausted, then rotate other;
+    rota_count = ;
+	else if (target_rev_dist < target_i && item_rev_dist < item_i)
+		//reverse rotate both til smaller i exhausted, then revrot other
 
-	
-	if (dist_to_top < dist_to_bottom)
-		rota_count = count_dist_to_top;
-	else
-		rota_count = count_dist_to_bottom;
-	// so you gotta count the nodes' distance to top for A and B - both for A and B in total. make max use of RR
 	// count cost, save, compare to cost of next item, unless found a cost of 0.
+  // cost is the minimum number of moves for the current pair.
 
-	return (count);
+
+
+	return (rota_count);
 }
 
-static int	count_distance()
-{
-	//return negative or positive integer signifying the target's distance to top and bottom, return positive if closer to top, negative if closer to bottom.
-	int		i;
-	t_link	*tmp_b;
 
-	i = 1;
-	tmp_b = (*b)->next;
-	while (tmp_b != *b)
-		i++;
-}
