@@ -29,11 +29,6 @@ void	ft_descend_in_b(t_link **b, t_link **a, int a_len)
 		push_count++;
 	}
 }
-	//push first two A nodes to B, top and below(push only ONE to B if stack A has only 4 nodes)
-	//first two become the FIRST target nodes, after which each addition becomes a new potential target node
-	//then every node from A by reference to target nodes in B until 3 left in A.
-	//target node in B is the CLOSEST SMALLER to the node of A
-	//	if theres no closest smaller, then node is SMALLEST and its target the max value of B
 
 void	ft_ascend_in_a(t_link **a, t_link **b)
 {
@@ -49,39 +44,25 @@ static void	choose_item(t_link **a, t_link **b, int a_len, int *choice)
 {
 	int		target_i;
 	int		item_i;
-  int   alt[8];
+  int   alt[7];
 
 	item_i = 0;
+  choice[COST] = INT_MAX;
 	while (item_i < a_len)
 	{
     alt[ITEM] = item_i;
-    fill_parameters(alt, a, b, a_len);
-		alt[COST] = count_cost(alt);
+    parameters_for_count(alt, a, b, a_len);
+    ft_fetch_instructions(alt);
+		ft_count_cost(alt);
 		if (alt[COST] < choice[COST])
-		{
-      choice[COST] = alt[COST];
-      //all alt values become choice values
-		}
+      choice = alt;
 		item_i++;
 	}
 }
 
-static int	count_cost(int *alt)
+static void parameters_for_count(int *arr, t_link **a, t_link **b, int a_len)
 {
-	int		rota_count;
-  
-	if (target_i < target_rev_dist && item_i < item_rev_dist)
-    //rotate both until smaller i is exhausted, then rotate other;
-    rota_count = ;
-	else if (target_rev_dist < target_i && item_rev_dist < item_i)
-		//reverse rotate both til smaller i exhausted, then revrot other
-
-	// count cost, save, compare to cost of next item, unless found a cost of 0.
-  // cost is the minimum number of moves for the current pair.
-
-
-
-	return (rota_count);
+  arr[TRGT] = ft_closest_smaller(arr[ITEM], a, b);
+  arr[TRGT_TAIL_DIST] = ft_target_taildist(arr, b);
+  arr[ITEM_TAIL_DIST] = a_len - arr[ITEM];
 }
-
-

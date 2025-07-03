@@ -25,50 +25,51 @@ typedef struct s_stack_item
 	struct s_stack_item		*previous;
 }	t_link;
 
-# define ERROR 1
-# define FALSE 0
-# define SORTED 1
-# define NOT_SORTED 0
-# define COST 0
-# define TARGET_I, TARGT_ROTAS 1
-# define TARGET_TAIL_DIST, TARGT_REVROTAS 2
-# define ITEM_I, ITEM_ROTAS 3
-# define ITEM_TAIL_DIST, ITEM_REVROTAS 4
-# define BOTH_ROTAS 5
-# define BOTH_REVROTAS 6
-# define NULLTER 7;
+# define ERROR 1;
+# define FALSE 0;
+# define SORTED 1;
+# define NOT_SORTED 0;
+# define COST 0;
+# define TRGT, B_R 1;
+# define TRGT_TAIL_DIST, B_RR 2;
+# define ITEM_I, A_R 3;
+# define ITEM_TAIL_DIST, A_RR 4;
+# define BOTH_RR 5;
+# define BOTH_RRR 6;
 
-int				main_unit(int argc, char *argv[]); //CHANGE NAME AFTER UNIT TESTING
-int				ft_link_items(t_link **a, int argc, char **argv);
-void			ft_sort(int argc, t_link **a, t_link **b);
-void			ft_bubble(t_link **a);
-int				ft_is_sorted(t_link **a);
-t_link			*ft_lstnew(char *argument);
-void			ft_lstadd_back(t_link **cont_head, t_link *new_node);
-void			ft_tail_to_head(t_link **cont_head);
-void			ft_free_items(t_link **cont_head);
+int		        main_unit(int argc, char *argv[]); //CHANGE NAME AFTER UNIT TESTING
+int			    	ft_link_items(t_link **a, int argc, char **argv);
+void		    	ft_sort(int argc, t_link **a, t_link **b);
+void		    	ft_bubble(t_link **a);
+int			    	ft_is_sorted(t_link **a);
+t_link		  	*ft_lstnew(char *argument);
+void		    	ft_lstadd_back(t_link **cont_head, t_link *new_node);
+void		    	ft_tail_to_head(t_link **cont_head);
+void		    	ft_free_items(t_link **cont_head);
 static int		ft_atoi(char *nptr);
-void			ft_descend_in_b(t_link **b, t_link **a, int n);
-void			ft_ascend_in_a(t_link **a, t_link **b);
-void			choose_item(t_link **a, t_link **b, int a_len, int *choices)
+void			    ft_descend_in_b(t_link **b, t_link **a, int n);
+void	    		ft_ascend_in_a(t_link **a, t_link **b);
+void			    choose_item(t_link **a, t_link **b, int a_len, int *choices)
 static int		count_cost(t_link **a, t_link **b);
+void          ft_fill_parameters(int *array, t_link **a, t_link **b, int a_len);
 static int		closest_smaller();
-static int		closest_larger();
-void			ft_initial_push(t_link **b, t_link **a, int *push_count);
+static int    target_taildist(int target_i, t_link **b);
+static void   fetch_instructions(int *array);
+void			    ft_initial_push(t_link **b, t_link **a, int *push_count);
 static void		push(t_link **dest_cont, t_link **src_cont);
-void			pa(t_link **a, t_link **b);
-void			pb(t_link **b, t_link **a);
+void			    pa(t_link **a, t_link **b);
+void			    pb(t_link **b, t_link **a);
 static void		swap(t_link **cont);
-void			sa(t_link **a);
-void			sb(t_link **b);
-void			ss(t_link **a, t_link **b);
+void			    sa(t_link **a);
+void			    sb(t_link **b);
+void			    ss(t_link **a, t_link **b);
 static void		rotate(t_link **cont);
-void			ra(t_link **a);
-void			rb(t_link **b);
-void			rr(t_link **a, t_link **b);
+void			    ra(t_link **a);
+void			    rb(t_link **b);
+void			    rr(t_link **a, t_link **b);
 static void		rev_rotate(t_link **cont);
-void			rra(t_link **a);
-void			rrb(t_link **b);
-void			rrr(t_link **a, t_link **b);
+void			    rra(t_link **a);
+void			    rrb(t_link **b);
+void			    rrr(t_link **a, t_link **b);
 
 #endif
