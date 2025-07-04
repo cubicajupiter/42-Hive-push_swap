@@ -14,88 +14,108 @@
 
 
 
-void	ft_descend_in_b(t_link **b, t_link **a, int n)
+void	ft_descend_in_b(t_link **b, t_link **a, int initial_a_len)
 {
-	int		push_count;
-	int		node_indexes[3];
+	int	init_push_count;
+	int	current_a_len;
+	int	choice[7];
 
-	push_count = 0;
-	ft_initial_push(b, a, &push_count);
-	while (n - push_count > 3)
+	init_push_count = ft_initial_push(b, a, initial_a_len);
+	current_a_len = initial_a_len - init_push_count;
+	while (current_a_len > 3)
 	{
-		choose_item(a, b, n - push_count, node_indexes);
-		if (choice_is_below_median(&node_indexes))
-			revrotate_to_top();
-		else
-			rotate_to_top();
+		ft_choose_item(a, b, current_a_len, choice);
+		ft_repeat_rotas(a, b, choice, FALSE);
 		pb(b, a);
-		push_count++;
+		current_a_len--;
 	}
 }
-	//push first two A nodes to B, top and below(push only ONE to B if stack A has only 4 nodes)
-	//first two become the FIRST target nodes, after which each addition becomes a new potential target node
-	//then every node from A by reference to target nodes in B until 3 left in A.
-	//target node in B is the CLOSEST SMALLER to the node of A
-	//	if theres no closest smaller, then node is SMALLEST and its target the max value of B
 
 void	ft_ascend_in_a(t_link **a, t_link **b)
 {
-	while ()
-	{
-// to the CLOSEST BIGGER -> bring closest bigger to TOP and then pb
-// if theres no closest bigger, then node is the BIGGEST and its target the min value of A
-// median: to rotate or reverse rotate. If target below median, revrot
-	}
-}
-
-static void	choose_item(t_link **a, t_link **b, int a_len, int *choice)
-{
-	int		total_cost;
-	int		target_i;
-	int		choice_i;
-
-	choice_i = 0;
-	choice[0] = INT_MAX;
-	while (choice_i < a_len)
-	{
-		target_i = ft_closest_smaller(choice_i, a, b);
-		total_cost = count_cost(choice_i, a_len, b, target_i);
-		if (total_cost < choice[0])
-		{
-			choice[0] = total_cost;
-			choice[1] = choice_i;
-			choice[2] = target_i; //THESE THREE ARE THE ONLY INTELS REQUIRED FOR PERFORMING OPS IN CALLER
-			// FURTHER INTEL IS ONLY REQUIRED IN COST COUNTING.
-		}
-		choice_i++;
-	}
-}
-
-static int	count_cost(int choice_i, int a_len, t_link **b, int target_i) // RETURNS THE COST OF LOWEST COST PUSH
-{
-	int		target_distance;
-	int		choice_distance;
-	int		rota_count; //rota count approximates to a concept of total count of rotations, but curently has no logic for revrot/rot aspect which will happen by the negatives&positives of target and choice distances, somehow, once implemented
-
-	
-	if (dist_to_top < dist_to_bottom)
-		rota_count = count_dist_to_top;
-	else
-		rota_count = count_dist_to_bottom;
-	// so you gotta count the nodes' distance to top for A and B - both for A and B in total. make max use of RR
-	// count cost, save, compare to cost of next item, unless found a cost of 0.
-
-	return (count);
-}
-
-static int	count_distance()
-{
-	//return negative or positive integer signifying the target's distance to top and bottom, return positive if closer to top, negative if closer to bottom.
+	int		ops[3];
+	int		nextlarger;
+	int		target_index;
 	int		i;
-	t_link	*tmp_b;
+	t_link		*tmp_a;
 
-	i = 1;
-	tmp_b = (*b)->next;
-	while (tmp_b != *b)
+	if (ft_is_sorted(a))
+		return ;
+	i = 0;
+	nextlarger = 0;
+	tmp_a = *a;
+	tmp_a->previous->next = NULL;
+	while (tmp_a) //ALL THIS SHIT WONT FIT IN ONE FUNC AND WOULD BE MOR ELEGANT IF MULTIPLE FUNCS
+	{
+		if (tmp_a->data > (*b)->data && tmp_a->data < nextlarger)
+		{
+			nextlarger = tmp_a->data;
+			target_index = i;
+		}
+		tmp_a = tmp_a->next;
 		i++;
+	}
+	(*a)->previous->next = (*a);
+	//pass to ft_repeater(a, b, rot or revrot, times=cost)
+	ft_repeat_rotas(a, b, ops, TRUE);
+	pa(a, b);
+	ft_ascend_in_a(a, b);
+}
+
+static void	ft_choose_item(t_link **a, t_link **b, int a_len, int *choice)
+{
+	int	i;
+	int	item_i;
+	int	alt_params[4];
+	int	alt_choice[7];
+
+	item_i = 0;
+	choice[COST] = INT_MAX;
+	while (item_i < a_len)
+	{
+		i = 0;
+		alt_params[ITEM] = item_i;
+		ft_parameters_for_count(alt_params, a, b, a_len);
+		ft_fetch_instructions(alt_params, alt_choice);
+		ft_count_cost(alt_choice);
+		if (alt_choice[COST] < choice[COST])
+		{
+			while (i < 7)
+			{
+				choice[i] = alt_choice[i];
+				i++;
+			}
+		}
+		item_i++;
+	}
+}
+
+void	ft_fetch_instructions(int *para, int *ops)
+{
+	if (para[ITEM] <= para[ITEM_TAILDIST])
+		ops[RA] = para[ITEM];
+	else if (para[ITEM] > para[ITEM_TAILDIST])
+		ops[RRA] = para[ITEM_TAILDIST];
+	if (para[TRGT] <= para[TRGT_TAILDIST])
+		ops[RB] = para[TRGT];
+	else if (para[TRGT] > para[TRGT_TAILDIST])
+		ops[RRB] = para[TRGT_TAILDIST];
+	if (ops[RA] && ops[RB] && ops[RA] <= ops[RB])
+		ft_update_concur_ops(ops, NOT_REV, RA, RB);
+	else if (ops[RA] && ops[RB] && ops[RA] > ops[RB])
+		ft_update_concur_ops(ops, NOT_REV, RB, RA);
+	else if (ops[RRA] && ops[RRB] && ops[RRA] <= ops[RRB])
+		ft_update_concur_ops(ops, IS_REV, RRA, RRB);
+	else if (ops[RRA] && ops[RRB] && ops[RRA] > ops[RRB])
+		ft_update_concur_ops(ops, IS_REV, RRB, RRA);
+}
+
+void	ft_update_concur_ops(int *ops, t_bool is_rev, int closer, int further)
+{
+	if (is_rev)
+		ops[RRR] = ops[closer]; //when closer and further are equal, will 
+	else if (!is_rev)
+		ops[RR] = ops[closer];
+	ops[further] = ops[further] - ops[closer];
+	ops[closer] = 0;
 }

@@ -22,7 +22,7 @@ static void	push(t_link **dest_cont, t_link **src_cont)
 	old_top = *dest_cont;
 	new_top = *src_cont;
 	tail = old_top->previous;
-	swap_var = new_top->next->previous;
+	swap_var = new_top->next->previous; //PRETTY SURE THIS SHOULD BE new_top->next INSTEAD!
 	new_top->next->previous = new_top->previous;
 	new_top->previous->next = swap_var;
 	tail->next = new_top;
