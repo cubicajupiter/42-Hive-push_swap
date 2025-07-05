@@ -19,7 +19,7 @@ void	ft_repeat_rotas(t_link **a, t_link **b, int *ops, t_bool is_Ascend_to_a)
 	command = 1;
 	if (is_Ascend_to_a)
 	{
-		while (command <= 1)
+		while (command <= 2)
 		{
 			if (ops[command])
 				ft_repeater(a, b, command, ops[command]);

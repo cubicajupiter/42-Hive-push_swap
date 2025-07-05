@@ -42,10 +42,10 @@ typedef enum
 # define ITEM 2
 # define ITEM_TAILDIST 3
 # define COST 0
-# define RB 1
-# define RRB 2
-# define RA 3
-# define RRA 4
+# define RA 1
+# define RRA 2
+# define RB 3
+# define RRB 4
 # define RR 5
 # define RRR 6
 
