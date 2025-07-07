@@ -54,7 +54,7 @@ int main(void)
 
 	printf("REVERSE ROTATION FUNCTIONS:\n\n");
 	result_rr = test_revrotate();
-	printf("");
+	printf("\n");
 
 	return 0;
 }
@@ -64,15 +64,49 @@ void	initialize_test_parameters(t_link **a, char **args, int argc)
 	ft_link_items(a, argc, args); //valgrind error.
 }
 
+void	loop_and_print_values(t_link **cont)
+{
+	t_link	*tmp;
+
+	tmp = *cont;
+	printf("%d ", tmp->data);
+	tmp = tmp->next;
+	while (tmp != *cont)
+	{
+		printf("%d ", tmp->data);
+		tmp = tmp->next;
+	}
+	printf("\n\n");
+}
+
 int	test_primaries()
 {
-	//char	*argumentsover3[10] = {"name", "30", "1", "4", "42", "17", "7", "9", "2", "57"};
-	//char	*arguments3[4] = {"name", "8", "2", "5"};
-	//main_unit(10, argumentsover3);
-	//main_unit(4, arguments3);
+	char	*argumentsover3[10] = {"name", "30", "1", "4", "42", "17", "7", "9", "2", "57"};
+	char	*arguments3[4] = {"name", "8", "2", "5"};
+	t_link	*a9 = NULL;
+	t_link	*a3 = NULL;
+	t_link	*b9 = NULL;
+	t_link	*b3 = NULL;
 
+	initialize_test_parameters(&a9, argumentsover3, 10);
+	initialize_test_parameters(&a3, arguments3, 4);
 
-	//ft_sort();
+	printf("-TESTING PRIMARY SORT FUNCTION-\n");
+	printf("A9 Values before sort:\n");
+	loop_and_print_values(&a9);
+	ft_sort(10, &a9, &b9);
+	printf("A9 Values after sort:\n");
+	loop_and_print_values(&a9);
+	printf("B9 Values after sort:\n");
+	loop_and_print_values(&b9);
+	printf("\n");
+
+	printf("A3 Values before sort:\n");
+	loop_and_print_values(&a3);
+	ft_sort(4, &a3, &b3);
+	printf("A3 Values after sort:\n");
+	loop_and_print_values(&a3);
+	printf("\n");
 
 
 	char	*bubble_args[4] = {"name", "8", "2", "5"};
@@ -149,16 +183,16 @@ int	test_utils()
 	char		*argumentsover3[10] = {"name", "30", "1", "4", "42", "17", "7", "9", "2", "57"};
 
 	printf("Testing [ ft_link_items ]\n");
-	printf("-FILLING THE 'CONTAINER'-\n	Contents:\n");
+	printf("-FILLING THE 'CONTAINER'-\n	datas:\n");
 	ft_link_items(&a, 10, argumentsover3);
 	tmp = a;
 	while (i < 9)
 	{
-		printf("	%d\n", tmp->content);
+		printf("	%d\n", tmp->data);
 		tmp = tmp->next;
 		i++;
 	}
-	printf("	After final iteration: %d (displays first value - circular linked list.)\n\n", tmp->content);
+	printf("	After final iteration: %d (displays first value - circular linked list.)\n\n", tmp->data);
 
 
 	//ft_lstnew();
@@ -185,15 +219,15 @@ int	test_swap()
 	initialize_test_parameters(&a, args_a, 5);
 	initialize_test_parameters(&b, args_b, 5);
 	printf("-TESTING SWAP FUNCTIONS-\n");
-	printf("	First value of A before swap:  %d\n", a->content);
+	printf("	First value of A before swap:  %d\n", a->data);
 	sa(&a);
-	printf("	First value of A after swap:  %d\n\n", a->content);
-	printf("	First value of B before swap:  %d\n", b->content);
+	printf("	First value of A after swap:  %d\n\n", a->data);
+	printf("	First value of B before swap:  %d\n", b->data);
 	sb(&b);
-	printf("	First value of B after swap:  %d\n\n", b->content);
-	printf("	First value of A & B before 2nd swap:  %d  &  %d\n", a->content, b->content);
+	printf("	First value of B after swap:  %d\n\n", b->data);
+	printf("	First value of A & B before 2nd swap:  %d  &  %d\n", a->data, b->data);
 	ss(&a, &b);
-	printf("	First value of A & B after 2nd swap:  %d  &  %d\n\n", a->content, b->content);
+	printf("	First value of A & B after 2nd swap:  %d  &  %d\n\n", a->data, b->data);
 	ft_free_items(&a);
 	ft_free_items(&b);
 	return 0;
@@ -201,34 +235,99 @@ int	test_swap()
 
 int	test_push()
 {
-	printf("Test not implemented.\n");
-	//pa();
+	char		*args_a[5] = {"name", "1", "2", "4", "7"};
+	char		*args_b[5] = {"name", "9", "15", "28", "42"};
+	t_link		*b_empty = NULL;
+	t_link		*a = NULL;
+	t_link		*b = NULL;
 
-	//pb();
+	initialize_test_parameters(&a, args_a, 5);
+	initialize_test_parameters(&b, args_b, 5);
+	printf("-TESTING PUSH FUNCTIONS-.\n");
+	printf("	First value of A before push to A:  %d\n", a->data);
+	pa(&a, &b);
+	printf("	First value of A after push to A:  %d\n", a->data);
+	printf("	First value of B after push to A and before push no.2 back to B:  %d\n\n", b->data);
+	pb(&b, &a);
+	printf("	First value of B after push back to B:  %d\n\n", b->data);
+	printf("	First value of A & B before 3rd push:  %d  &  %d\n", a->data, b->data);
+	pb(&b, &a);
+	printf("	The top, tail and next of A after 3rd push: %d  %d  %d\n", a->data, a->previous->data, a->next->data);
+	printf("	The top, tail and next of B after 3rd push: %d  %d  %d\n\n", b->data, b->previous->data, b->next->data);
+	printf("	Empty stack B pointer before push to B: %p\n", b_empty);
+	pb(&b_empty, &a);
+	printf("	Previously empty B pointer after push to B: %p\n", b_empty);
+	printf("	First value, tail and next of previously empty B before 2nd push:  %d  %d  %d\n", b_empty->data, b_empty->next->data, b_empty->previous->data);
+	pb(&b_empty, &a);
+	printf("	First val, next, next->next, and tail of previously empty B after 2nd push:  %d  %d  %d  %d\n\n", b_empty->data, b_empty->next->data, b_empty->next->next->data, b_empty->previous->data);
+
+	ft_free_items(&a);
+	ft_free_items(&b);
+	ft_free_items(&b_empty);
 
 	return 0;
 }
 
 int	test_rotate()
 {
-	printf("Test not implemented.\n");
-	//ra();
+	char		*args_a[5] = {"name", "1", "2", "4", "7"};
+	char		*args_b[5] = {"name", "9", "15", "28", "42"};
+	t_link		*a = NULL;
+	t_link		*b = NULL;
 
-	//rb();
+	initialize_test_parameters(&a, args_a, 5);
+	initialize_test_parameters(&b, args_b, 5);
 
-	//rr();
+	printf("-TESTING ROTATION FUNCTIONS-\n");
+	printf("Rotate A:\n");
+	printf("A Head value and tail before RA:  %d  %d\n", a->data, a->previous->data);
+	ra(&a);
+	printf("A Head value and tail after RA:  %d  %d\n\n", a->data, a->previous->data);
+
+	printf("Rotate B:\n");
+	printf("B Head value and tail before RB:  %d  %d\n", b->data, b->previous->data);
+	rb(&b);
+	printf("B Head value and tail after RB:  %d  %d\n\n", b->data, b->previous->data);
+
+	printf("Rotate both:\n");
+	printf("Head values and tails before RR:  a-%d  b-%d  a-%d  b-%d\n", a->data, b->data, a->previous->data, b->previous->data);
+	rr(&a, &b);
+	printf("Head values and tails after RR:  a-%d  b-%d  a-%d  b-%d\n\n", a->data, b->data, a->previous->data, b->previous->data);
+
+	ft_free_items(&a);
+	ft_free_items(&b);
 
 	return 0;
 }
 
 int	test_revrotate()
 {
-	printf("Test not implemented.\n");
-	//rra();
+	char		*args_a[5] = {"name", "1", "2", "4", "7"};
+	char		*args_b[5] = {"name", "9", "15", "28", "42"};
+	t_link		*a = NULL;
+	t_link		*b = NULL;
 
-	//rrb();
+	initialize_test_parameters(&a, args_a, 5);
+	initialize_test_parameters(&b, args_b, 5);
 
-	//rrr();
+	printf("-TESTING REVERSE ROTATION FUNCTIONS-\n");
+	printf("Reverse Rotate A:\n");
+	printf("A Head value before RRA:  %d\n", a->data);
+	rra(&a);
+	printf("A Head value after RRA:  %d\n\n", a->data);
+
+	printf("Reverse Rotate B:\n");
+	printf("B Head value before RRB:  %d\n", b->data);
+	rrb(&b);
+	printf("B Head value after RRB:  %d \n\n", b->data);
+
+	printf("Reverse Rotate both:\n");
+	printf("Head values before RRR:  a-%d  b-%d\n", a->data, b->data);
+	rrr(&a, &b);
+	printf("Head values after RRR:  a-%d  b-%d\n\n", a->data, b->data);
+
+	ft_free_items(&a);
+	ft_free_items(&b);
 
 	return 0;
 }

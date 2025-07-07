@@ -51,6 +51,6 @@ void	ft_repeater(t_link **a, t_link **b, int command, int n)
 				rrb(b);
 		else if (command == RRR)
 				rrr(a, b);
-		if (n > 0)
+		if (n > 1) //this was fucked. n > 0 caused it to rotate once too much.
 			ft_repeater(a, b, command, n - 1);
 }

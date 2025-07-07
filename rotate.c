@@ -12,26 +12,26 @@
 
 #include "push_swap.h"
 
-static void	rotate(t_link **cont)
+void	ft_rotate(t_link **cont)
 {
 	*cont = (*cont)->next;
 }
 
 void	ra(t_link **a)
 {
-	rotate(a);
+	ft_rotate(a);
 	write(1, "ra\n", 3);
 }
 
 void	rb(t_link **b)
 {
-	rotate(b);
+	ft_rotate(b);
 	write(1, "rb\n", 3);
 }
 
 void	rr(t_link **a, t_link **b)
 {
-	rotate(a);	
-	rotate(b);
+	ft_rotate(a);	
+	ft_rotate(b);
 	write(1, "rr\n", 3);
 }

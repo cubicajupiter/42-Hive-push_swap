@@ -6,7 +6,7 @@
 /*   By: jvalkama <jvalkama@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:17:13 by jvalkama          #+#    #+#             */
-/*   Updated: 2025/06/17 15:17:33 by jvalkama         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:17:48 by jvalkama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main_unit(int argc, char **argv) //CHANGE NAME BACK TO MAIN() AFTER UNIT TES
 	return (0);
 }
 
-int		ft_link_items(t_link **a, int argc, char **argv) //WORKS!!!!!!!!!!!!!!!!!!
+int		ft_link_items(t_link **a, int argc, char **argv)
 {
 	int			i;
 	t_link		*new_node;
@@ -64,11 +64,12 @@ void	ft_sort(int argc, t_link **a, t_link **b)
 	{
 		ft_descend_in_b(b, a, item_count);
 		ft_bubble(a);
+		ft_largest_to_top(a, b); //so I guess I should put largest to top in both before beginning ascent. Also ft_push needs a way to nullify a cont once it empties.
 		ft_ascend_in_a(a, b);
 	}
 }
 
-void	ft_bubble(t_link **a) //WORKS!!!!!!!!!!!!!!!!!!!!!!!
+void	ft_bubble(t_link **a)
 {
 	t_link		*tmp;
 	int			top;
@@ -79,8 +80,8 @@ void	ft_bubble(t_link **a) //WORKS!!!!!!!!!!!!!!!!!!!!!!!
 	tmp = *a;
 	while (!ft_is_sorted(&tmp))
 	{
-		top = tmp->content;
-		below = tmp->next->content;
+		top = tmp->data;
+		below = tmp->next->data;
 		if (top > below)
 			sa(&tmp);
 		if (!ft_is_sorted(&tmp))
@@ -95,7 +96,7 @@ void	ft_bubble(t_link **a) //WORKS!!!!!!!!!!!!!!!!!!!!!!!
 	*a = tmp;
 }
 
-int		ft_is_sorted(t_link **a) //WORKS!!!!!!!!!!!!!!!!!
+int		ft_is_sorted(t_link **a)
 {
 	int			prev;
 	int			current;
@@ -105,11 +106,11 @@ int		ft_is_sorted(t_link **a) //WORKS!!!!!!!!!!!!!!!!!
 	prev = 0;
 	tmp = *a;
 	first_address = *a;
-	prev = tmp->content;
+	prev = tmp->data;
 	tmp = tmp->next;
 	while (tmp && tmp != first_address)
 	{
-		current = tmp->content;
+		current = tmp->data;
 		if (current >= prev)
 			prev = current;
 		else

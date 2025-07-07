@@ -12,9 +12,7 @@
 
 #include "push_swap.h"
 
-
-
-void  ft_descend_in_b(t_link **b, t_link **a, int initial_a_len)
+void    ft_descend_in_b(t_link **b, t_link **a, int initial_a_len)
 {
     int   init_push_count;
     int   current_a_len;
@@ -25,61 +23,65 @@ void  ft_descend_in_b(t_link **b, t_link **a, int initial_a_len)
     while (current_a_len > 3)
     {
         ft_choose_item(a, b, current_a_len, choice);
-        ft_repeat_rotas(a, b, choice, FALSE);
+        ft_repeat_rotas(a, b, choice, FALSE); //here if cost is 1 there's no need for any rotas.
         pb(b, a);
-        current_a_len--;
+        current_a_len--; //dont think it correctly rotates the largest on top each time
     }
 }
 
-void  ft_ascend_in_a(t_link **a, t_link **b)
+void    ft_ascend_in_a(t_link **a, t_link **b)
 {
     int     ops[3];
-    t_link  *tmp_a;
 
-    if (ft_is_sorted(a))
+    if (ft_is_sorted(a) && !*b)
         return ;
-	ops[0] = 0;
-	ops[1] = 0;
-	ops[2] = 0;
-	ft_closest_larger(a, b, ops);
+    ops[0] = 0;
+    ops[1] = 0;
+    ops[2] = 0; //in ft_sort you could rotate B so largest is top.
+    ft_closest_larger(a, b, ops);
     ft_repeat_rotas(a, b, ops, TRUE);
-    pa(a, b);
+    pa(a, b); //there is no logic for emptying out B by pushes.
     ft_ascend_in_a(a, b);
 }
 
-
-
-
-static void ft_choose_item(t_link **a, t_link **b, int a_len, int *choice)
+void    ft_choose_item(t_link **a, t_link **b, int a_len, int *choice)
 {
     int   i;
     int   item_i;
     int   alt_params[4];
-    int   alt_choice[7];
-    
+    int   alt_ops[7];
+
     item_i = 0;
     choice[COST] = INT_MAX;
     while (item_i < a_len)
     {
-        i = 0;
         alt_params[ITEM] = item_i;
         ft_parameters_for_count(alt_params, a, b, a_len);
-        ft_fetch_instructions(alt_params, alt_choice);
-        ft_count_cost(alt_choice);
-        if (alt_choice[COST] < choice[COST])
+        ft_fetch_instructions(alt_params, alt_ops);
+        ft_count_cost(alt_ops);
+        if (alt_ops[COST] < choice[COST])
         {
+            i = 0;
             while (i < 7)
             {
-                choice[i] = alt_choice[i];
+                choice[i] = alt_ops[i];
                 i++;
             }
-            item_i++;
         }
+        item_i++; //you could also break the loop already if choice[0] == 1;
     }
 }
 
-void  ft_fetch_instructions(int *para, int *ops)
+void    ft_fetch_instructions(int *para, int *ops)
 {
+    int     i;
+
+    i = 0;
+    while (i < 7)
+    {
+        ops[i] = 0;
+        i++;
+    }
     if (para[ITEM] <= para[ITEM_TAILDIST])
         ops[RA] = para[ITEM];
     else if (para[ITEM] > para[ITEM_TAILDIST])
@@ -98,12 +100,12 @@ void  ft_fetch_instructions(int *para, int *ops)
         ft_update_concur_ops(ops, IS_REV, RRB, RRA);
 }
 
-void  ft_update_concur_ops(int *ops, t_bool is_rev, int closer, int further)
+void    ft_update_concur_ops(int *ops, t_bool is_rev, int closer, int further)
 {
     if (is_rev)
         ops[RRR] = ops[closer]; //when closer and further are equal, will 
     else if (!is_rev)
         ops[RR] = ops[closer];
     ops[further] = ops[further] - ops[closer];
-        ops[closer] = 0;
+    ops[closer] = 0;
 }
