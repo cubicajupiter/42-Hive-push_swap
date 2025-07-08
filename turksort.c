@@ -23,25 +23,39 @@ void    ft_descend_in_b(t_link **b, t_link **a, int initial_a_len)
     while (current_a_len > 3)
     {
         ft_choose_item(a, b, current_a_len, choice);
-        ft_repeat_rotas(a, b, choice, FALSE); //here if cost is 1 there's no need for any rotas.
+        if (choice[COST] > 1)
+            ft_repeat_rotas(a, b, choice, FALSE);
         pb(b, a);
         current_a_len--; //dont think it correctly rotates the largest on top each time
     }
 }
 
-void    ft_ascend_in_a(t_link **a, t_link **b)
+void    ft_ascend_in_a(t_link **a, t_link **b, int b_len)
 {
     int     ops[3];
+    int     a_len;
+    int     i;
 
-    if (ft_is_sorted(a) && !*b)
-        return ;
-    ops[0] = 0;
-    ops[1] = 0;
-    ops[2] = 0; //in ft_sort you could rotate B so largest is top.
-    ft_closest_larger(a, b, ops);
-    ft_repeat_rotas(a, b, ops, TRUE);
-    pa(a, b); //there is no logic for emptying out B by pushes.
-    ft_ascend_in_a(a, b);
+    i = 0;
+    while (i < b_len)
+    {
+        ops[0] = 0;
+        ops[1] = 0;
+        ops[2] = 0;
+        ft_closest_larger(a, b, ops);
+        if (ops[1] == -1)
+        {
+            a_len = ft_taildist(0, a);
+            ft_bring_to_top(a, b, STACK_A, a_len);
+        }
+        else
+            ft_repeat_rotas(a, b, ops, TRUE);
+        if (i + 1 == b_len)
+            pa(a, b, FINAL_PUSH);
+        else
+            pa(a, b, NOT_FINAL); //SOMETIMES A HEAD IS NOT ROTATED TO SMALLEST AT THE END, ESP WHEN NEGATIVES ARE INVOLVED, DEPENDING ON INITIALIZATION VALUES.
+        i++;
+    }
 }
 
 void    ft_choose_item(t_link **a, t_link **b, int a_len, int *choice)
@@ -53,7 +67,7 @@ void    ft_choose_item(t_link **a, t_link **b, int a_len, int *choice)
 
     item_i = 0;
     choice[COST] = INT_MAX;
-    while (item_i < a_len)
+    while (item_i < a_len && choice[COST] != 1)
     {
         alt_params[ITEM] = item_i;
         ft_parameters_for_count(alt_params, a, b, a_len);
@@ -68,7 +82,7 @@ void    ft_choose_item(t_link **a, t_link **b, int a_len, int *choice)
                 i++;
             }
         }
-        item_i++; //you could also break the loop already if choice[0] == 1;
+        item_i++;
     }
 }
 

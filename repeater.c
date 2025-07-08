@@ -40,17 +40,17 @@ void	ft_repeat_rotas(t_link **a, t_link **b, int *ops, t_bool is_Ascend_to_a)
 void	ft_repeater(t_link **a, t_link **b, int command, int n)
 {
 		if (command == RB)
-				rb(b);
+			rb(b);
 		else if (command == RA)
-				ra(a);
+			ra(a);
 		else if (command == RR)
-				rr(a, b);
+			rr(a, b);
 		else if (command == RRA)
-				rra(a);
+			rra(a);
 		else if (command == RRB)
-				rrb(b);
+			rrb(b);
 		else if (command == RRR)
-				rrr(a, b);
-		if (n > 1) //this was fucked. n > 0 caused it to rotate once too much.
+			rrr(a, b);
+		if (n > 1)
 			ft_repeater(a, b, command, n - 1);
 }

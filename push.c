@@ -41,9 +41,11 @@ void	ft_push(t_link **dest_head, t_link **src_head)
     *dest_head = new_top;
 }
 
-void	pa(t_link **a, t_link **b)
+void	pa(t_link **a, t_link **b, t_bool is_final_push)
 {
     ft_push(a, b);
+    if (is_final_push)
+	*b = NULL;
     write(1, "pa\n", 3);
 }
 

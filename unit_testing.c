@@ -68,6 +68,8 @@ void	loop_and_print_values(t_link **cont)
 {
 	t_link	*tmp;
 
+	if (*cont == NULL)
+		return ;
 	tmp = *cont;
 	printf("%d ", tmp->data);
 	tmp = tmp->next;
@@ -81,17 +83,43 @@ void	loop_and_print_values(t_link **cont)
 
 int	test_primaries()
 {
+	char	*edgeargs[9] = {"name", "1000", "0", "69", "-69", "11", "99", "21", "-9"};
+	char	*edgeargs2[9] = {"name", "1", "2", "69", "0", "-69", "11", "21", "-9"};
 	char	*argumentsover3[10] = {"name", "30", "1", "4", "42", "17", "7", "9", "2", "57"};
 	char	*arguments3[4] = {"name", "8", "2", "5"};
+	char	*args23[24] = {"name", "30", "1", "4", "-69", "42", "17", "7", "9", "2", "57", "3", "100", "68", "80", "1000", "0", "69", "311", "11", "24", "99", "21", "-9"};
+	t_link	*a8 = NULL;
+	t_link	*b8 = NULL;
+	t_link	*edgea2 = NULL;
+	t_link	*edgeb2 = NULL;
 	t_link	*a9 = NULL;
 	t_link	*a3 = NULL;
 	t_link	*b9 = NULL;
 	t_link	*b3 = NULL;
+	t_link	*a23 = NULL;
+	t_link	*b23 = NULL;
 
+	initialize_test_parameters(&a8, edgeargs, 9);
+	initialize_test_parameters(&edgea2, edgeargs2, 9);
 	initialize_test_parameters(&a9, argumentsover3, 10);
 	initialize_test_parameters(&a3, arguments3, 4);
+	initialize_test_parameters(&a23, args23, 24);
 
 	printf("-TESTING PRIMARY SORT FUNCTION-\n");
+	printf("Edge Arg Values before sort:\n");
+	loop_and_print_values(&a8);
+	ft_sort(9, &a8, &b8);
+	printf("Edge Arg Values after sort:\n");
+	loop_and_print_values(&a8);
+	printf("\n");
+
+	printf("Edge Arg Values !!SET 2!! before sort:\n");
+	loop_and_print_values(&edgea2);
+	ft_sort(9, &edgea2, &edgeb2);
+	printf("Edge Arg Values !!SET 2!! after sort:\n");
+	loop_and_print_values(&edgea2);
+	printf("\n");
+
 	printf("A9 Values before sort:\n");
 	loop_and_print_values(&a9);
 	ft_sort(10, &a9, &b9);
@@ -108,6 +136,17 @@ int	test_primaries()
 	loop_and_print_values(&a3);
 	printf("\n");
 
+	printf("A23 Values before sort:\n");
+	loop_and_print_values(&a23);
+	ft_sort(24, &a23, &b23);
+	printf("A23 Values after sort:\n");
+	loop_and_print_values(&a23);
+	printf("\n");
+
+	ft_free_items(&a9);
+	ft_free_items(&edgea2);
+	ft_free_items(&a3);
+	ft_free_items(&a23);
 
 	char	*bubble_args[4] = {"name", "8", "2", "5"};
 	char	*bubble_args2[4] = {"name", "42", "16", "1"};
@@ -245,7 +284,7 @@ int	test_push()
 	initialize_test_parameters(&b, args_b, 5);
 	printf("-TESTING PUSH FUNCTIONS-.\n");
 	printf("	First value of A before push to A:  %d\n", a->data);
-	pa(&a, &b);
+	pa(&a, &b, NOT_FINAL);
 	printf("	First value of A after push to A:  %d\n", a->data);
 	printf("	First value of B after push to A and before push no.2 back to B:  %d\n\n", b->data);
 	pb(&b, &a);

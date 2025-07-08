@@ -56,6 +56,7 @@ int		ft_link_items(t_link **a, int argc, char **argv)
 void	ft_sort(int argc, t_link **a, t_link **b)
 {
 	int		item_count;
+	int		b_len;
 
 	item_count = argc - 1;
 	if (item_count <= 3)
@@ -64,8 +65,9 @@ void	ft_sort(int argc, t_link **a, t_link **b)
 	{
 		ft_descend_in_b(b, a, item_count);
 		ft_bubble(a);
-		ft_largest_to_top(a, b); //so I guess I should put largest to top in both before beginning ascent. Also ft_push needs a way to nullify a cont once it empties.
-		ft_ascend_in_a(a, b);
+		b_len = ft_taildist(0, b);
+		ft_bring_to_top(a, b, STACK_B, b_len);
+		ft_ascend_in_a(a, b, b_len);
 	}
 }
 

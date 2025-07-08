@@ -27,7 +27,7 @@ int ft_initial_push(t_link **b, t_link **a, int a_len)
     return (push_count);
 }
 
-int	ft_target_taildist(int target_i, t_link **cont)
+int	ft_taildist(int target_i, t_link **cont)
 {
     int       dist;
     t_link    *tmp_cont;
@@ -57,7 +57,18 @@ void    ft_count_cost(int *alt_ops)
 
 void    ft_parameters_for_count(int *arr, t_link **a, t_link **b, int a_len)
 {
-    arr[TRGT] = ft_closest_smaller(arr[ITEM], a, b);
-    arr[TRGT_TAILDIST] = ft_target_taildist(arr[TRGT], b);
+    int     target_index;
+    int     b_len;
+    t_link  *tmp;
+
+    target_index = ft_closest_smaller(arr[ITEM], a, b); 
+    if (target_index == -1)
+    {
+        tmp = *b;
+        b_len = ft_taildist(0, b);
+        target_index = ft_fetch_index(&tmp, b_len, LARGEST);
+    }
+    arr[TRGT] = target_index;
+    arr[TRGT_TAILDIST] = ft_taildist(arr[TRGT], b);
     arr[ITEM_TAILDIST] = a_len - arr[ITEM];
 }
