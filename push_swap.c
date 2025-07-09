@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-int	main_unit(int argc, char **argv) //CHANGE NAME BACK TO MAIN() AFTER UNIT TESTING
+int	main(int argc, char **argv)
 {
 	int			is_error;
 	t_link		*a;
@@ -25,7 +25,7 @@ int	main_unit(int argc, char **argv) //CHANGE NAME BACK TO MAIN() AFTER UNIT TES
 		b = NULL;
 		is_error = ft_link_items(&a, argc, argv);
 		if (is_error)
-			return (ERROR);
+			write (1, "Error", 5);
 		ft_sort(argc, &a, &b);
 		ft_free_items(&a);
 	}
@@ -35,18 +35,20 @@ int	main_unit(int argc, char **argv) //CHANGE NAME BACK TO MAIN() AFTER UNIT TES
 int		ft_link_items(t_link **a, int argc, char **argv)
 {
 	int			i;
-	t_link		*new_node;
+	int			is_error;
 
 	i = 1;
+	is_error = ft_preprocess_arguments(argc, argv);
+	if (is_error)
+		return (ERROR);
+	if (argc == 2)
+	{
+		ft_single_arg(argv[i], a);
+		i++;
+	}
 	while (i < argc)
 	{
-		new_node = ft_lstnew(argv[i]);
-		if (!new_node) //THE ONLY ERROR CHECK SO FAR...
-		{
-			ft_free_items(a);
-			return (ERROR);
-		}
-		ft_lstadd_back(a, new_node);
+		ft_multiple_args(argv[i], a);
 		i++;
 	}
 	ft_tail_to_head(a);

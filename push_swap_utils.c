@@ -15,9 +15,11 @@
 t_link	*ft_lstnew(char *argument)
 {
 	t_link		*new_node;
-	int			data;
+	long long	data;
 
 	data = ft_atoi(argument);
+	if (data > INT_MAX || data < INT_MIN)
+		return (NULL);
 	new_node = malloc(sizeof(t_link));
 	if (!new_node)
 		return (NULL);
@@ -73,12 +75,12 @@ void	ft_free_items(t_link **a)
 	}
 }
 
-int	ft_atoi(char *nptr)
+long long	ft_atoi(char *nptr)
 {
-	int		sign;
-	int		result;
-	int		i;
-	char	digit;
+	int				sign;
+	long long		result;
+	int				i;
+	char			digit;
 
 	i = 0;
 	result = 0;
