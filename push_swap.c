@@ -79,6 +79,7 @@ void	ft_sort(int item_count, t_link **a, t_link **b)
 		b_len = ft_taildist(0, b);
 		ft_bring_to_top(a, b, STACK_B, b_len);
 		ft_ascend_in_a(a, b, b_len);
+		ft_final_rotation(a);
 	}
 }
 
@@ -95,9 +96,11 @@ void	ft_bubble(t_link **a)
 	{
 		top = tmp->data;
 		below = tmp->next->data;
-		if (top > below)
+		if (top > tmp->previous->data && top < below)
+			rra(&tmp);
+		else if (top > below)
 			sa(&tmp);
-		if (!ft_is_sorted(&tmp))
+		else if (!ft_is_sorted(&tmp))
 		{
 			if (i % 2 == 1)
 				rra(&tmp);
@@ -114,21 +117,24 @@ int		ft_is_sorted(t_link **a)
 	int			prev;
 	int			current;
 	t_link		*tmp;
-	void		*first_address;
 
+	(*a)->previous->next = NULL;
 	prev = 0;
 	tmp = *a;
-	first_address = *a;
 	prev = tmp->data;
 	tmp = tmp->next;
-	while (tmp && tmp != first_address)
+	while (tmp)
 	{
 		current = tmp->data;
-		if (current >= prev)
+		if (current > prev)
 			prev = current;
 		else
+		{
+			(*a)->previous->next = *a;
 			return (NOT_SORTED);
+		}
 		tmp = tmp->next;
 	}
+	(*a)->previous->next = *a;
 	return (SORTED);
 }

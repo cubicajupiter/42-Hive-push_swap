@@ -41,6 +41,7 @@ typedef enum
 # define STACK_B 2
 # define SMALLEST 0
 # define LARGEST 2
+# define NONE_LARGER -1
 # define ERRNO -1
 # define SUCCESS 1
 # define FALSE 0
@@ -83,6 +84,7 @@ void			ft_ascend_in_a(t_link **a, t_link **b, int stack_len);
 void			ft_choose_item(t_link **a, t_link **b, int a_len, int *choice);
 void			ft_count_cost(int *arr);
 void			ft_parameters_for_count(int *arr, t_link **a, t_link **b, int a_len);
+void			ft_final_rotation(t_link **a);
 void			ft_bring_to_top(t_link **a, t_link **b, int n_stack, int stack_len);
 int				ft_fetch_index(t_link **tmp, int stack_len, int index_of);
 int				ft_closest_smaller(int item_index, t_link **a, t_link **b);

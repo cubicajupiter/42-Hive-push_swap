@@ -72,3 +72,12 @@ void    ft_parameters_for_count(int *arr, t_link **a, t_link **b, int a_len)
     arr[TRGT_TAILDIST] = ft_taildist(arr[TRGT], b);
     arr[ITEM_TAILDIST] = a_len - arr[ITEM];
 }
+
+void	ft_final_rotation(t_link **a)
+{
+	t_link *tmp;
+
+	tmp = *a;
+	while (tmp->previous->data < tmp->data)
+		rra(&tmp);
+}

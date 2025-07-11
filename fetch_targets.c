@@ -64,7 +64,7 @@ void	ft_closest_larger(t_link **a, t_link **b, int *ops)
 
     i = 0;
     closest_larger = INT_MAX;
-    target_index = -1;
+    target_index = NONE_LARGER;
     tmp_a = *a;
     tmp_a->previous->next = NULL;
     while (tmp_a)
@@ -79,9 +79,9 @@ void	ft_closest_larger(t_link **a, t_link **b, int *ops)
     }
     (*a)->previous->next = (*a);
     if (target_index <= i / 2)
-	ops[RA] = target_index;
+		ops[RA] = target_index;
     else
-	ops[RRA] = i - target_index;
+		ops[RRA] = i - target_index;
 }
 
 void    ft_bring_to_top(t_link **a, t_link **b, int n_stack, int stack_len)

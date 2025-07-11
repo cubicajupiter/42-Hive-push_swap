@@ -42,7 +42,11 @@ int	ft_sign_error(char *arg, int i)
 
 int	ft_null_error(char *arg, int i)
 {
-	if (arg[i - 1] == '0')
-		return (ERRNO);
-	return (0);
+	while (i >= 0)
+	{
+		if (arg[i] > '0' && arg[i] <= '9')
+			return (0);
+		i--;
+	}
+	return (ERRNO);
 }

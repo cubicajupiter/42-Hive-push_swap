@@ -43,17 +43,17 @@ void    ft_ascend_in_a(t_link **a, t_link **b, int b_len)
         ops[1] = 0;
         ops[2] = 0;
         ft_closest_larger(a, b, ops);
-        if (ops[1] == -1)
+        if (ops[1] == NONE_LARGER)
         {
             a_len = ft_taildist(0, a);
             ft_bring_to_top(a, b, STACK_A, a_len);
         }
-        else
+        else if (ops[1] > 0 || ops[2] > 0)
             ft_repeat_rotas(a, b, ops, TRUE);
         if (i + 1 == b_len)
             pa(a, b, FINAL_PUSH);
         else
-            pa(a, b, NOT_FINAL); //SOMETIMES A HEAD IS NOT ROTATED TO SMALLEST AT THE END, ESP WHEN NEGATIVES ARE INVOLVED, DEPENDING ON INITIALIZATION VALUES.
+            pa(a, b, NOT_FINAL);
         i++;
     }
 }
